@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tictok_clone/features/authentication/sign_up_screen.dart';
 
 import 'constants/gaps.dart';
 import 'constants/sizes.dart';
-import 'features/authentication/sign_up_screen.dart';
 
 void main() {
   runApp(const TicTok());
