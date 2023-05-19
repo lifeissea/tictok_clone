@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tictok_clone/features/authentication/sign_up_screen.dart';
+import 'package:tictok_clone/features/main_navigation/main_navigation_screen.dart';
 
-import 'constants/gaps.dart';
 import 'constants/sizes.dart';
 
 void main() {
@@ -18,10 +17,10 @@ class TicTok extends StatelessWidget {
       title: 'TicTok',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
-        primaryColor: const Color(mainColor),
+        primaryColor: const Color(0xFFE9435A),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
           elevation: 0,
           titleTextStyle: TextStyle(
             color: Colors.black,
@@ -30,7 +29,7 @@ class TicTok extends StatelessWidget {
           ),
         ),
       ),
-      home: const SignUpScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }
