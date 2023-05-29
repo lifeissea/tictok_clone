@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'sizes.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 
 class Gaps {
   // Vertical Gaps
@@ -66,5 +65,3 @@ class Gaps {
   static const h80 = SizedBox(width: Sizes.size80);
   static const h96 = SizedBox(width: Sizes.size96);
 }
-
-const int mainColor = 0xFFE9435A;

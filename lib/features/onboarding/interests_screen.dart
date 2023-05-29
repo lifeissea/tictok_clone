@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/onboarding/tutorial_screen.dart';
 import 'package:tictok_clone/features/onboarding/widgets/interest_button.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
 
 const interests = [
   "Daily Life",
@@ -47,6 +46,9 @@ const interests = [
 ];
 
 class InterestsScreen extends StatefulWidget {
+  static const String routeName = "interests";
+  static const String routeURL = "/tutorial";
+
   const InterestsScreen({super.key});
 
   @override
@@ -71,6 +73,15 @@ class _InterestsScreenState extends State<InterestsScreen> {
     }
   }
 
+  void _onNextTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TutorialScreen(),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,15 +92,6 @@ class _InterestsScreenState extends State<InterestsScreen> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _onNextTap() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const TutorialScreen(),
-      ),
-    );
   }
 
   @override
@@ -125,7 +127,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
                 ),
                 Gaps.v20,
                 const Text(
-                  "Get better video recmmendations",
+                  "Get better video recommendations",
                   style: TextStyle(
                     fontSize: Sizes.size20,
                   ),
@@ -144,32 +146,29 @@ class _InterestsScreenState extends State<InterestsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            bottom: Sizes.size40,
-            top: Sizes.size16,
-            left: Sizes.size24,
-            right: Sizes.size24,
-          ),
-          child: GestureDetector(
-            onTap: _onNextTap,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size16 + Sizes.size2,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: const Text(
-                'Next',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: Sizes.size16,
-                ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(
+          bottom: Sizes.size40,
+          top: Sizes.size16,
+          left: Sizes.size24,
+          right: Sizes.size24,
+        ),
+        child: GestureDetector(
+          onTap: _onNextTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.size16 + Sizes.size2,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            child: const Text(
+              'Next',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: Sizes.size16,
               ),
             ),
           ),
