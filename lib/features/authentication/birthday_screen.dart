@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD:lib/features/authentication/birthday_screen.dart
 import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
@@ -8,22 +7,13 @@ import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tictok_clone/features/onboarding/interests_screen.dart';
 
 class BirthdayScreen extends StatefulWidget {
-=======
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tictok_clone/constants/gaps.dart';
-import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/authentication/view_models/signup_view_model.dart';
-import 'package:tictok_clone/features/authentication/views/widgets/form_button.dart';
-
-class BirthdayScreen extends ConsumerStatefulWidget {
->>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/authentication/views/birthday_screen.dart
   const BirthdayScreen({super.key});
 
   @override
-  ConsumerState<BirthdayScreen> createState() => _BirthdayScreenState();
+  State<BirthdayScreen> createState() => _BirthdayScreenState();
 }
 
-class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
+class _BirthdayScreenState extends State<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
 
   DateTime initialDate = DateTime.now();
@@ -41,11 +31,7 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void _onNextTap() {
-<<<<<<< HEAD:lib/features/authentication/birthday_screen.dart
     context.goNamed(InterestsScreen.routeName);
-=======
-    ref.read(signUpProvider.notifier).signUp(context);
->>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/authentication/views/birthday_screen.dart
   }
 
   void _setTextFieldDate(DateTime date) {
@@ -105,9 +91,7 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
             Gaps.v28,
             GestureDetector(
               onTap: _onNextTap,
-              child: FormButton(
-                disabled: ref.watch(signUpProvider).isLoading,
-              ),
+              child: const FormButton(disabled: false),
             ),
           ],
         ),

@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-<<<<<<< HEAD:lib/features/authentication/login_screen.dart
 import 'package:tictok_clone/features/authentication/login_form_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tictok_clone/utils.dart';
 
 class LoginScreen extends StatelessWidget {
-=======
-import 'package:tictok_clone/features/authentication/view_models/social_auth_view_model.dart';
-import 'package:tictok_clone/features/authentication/views/login_form_screen.dart';
-import 'package:tictok_clone/features/authentication/views/widgets/auth_button.dart';
-import 'package:tictok_clone/utils.dart';
-
-class LoginScreen extends ConsumerWidget {
->>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/authentication/views/login_screen.dart
   static String routeName = "login";
   static String routeURL = "/login";
   const LoginScreen({super.key});
@@ -36,7 +26,7 @@ class LoginScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -73,13 +63,9 @@ class LoginScreen extends ConsumerWidget {
                 ),
               ),
               Gaps.v16,
-              GestureDetector(
-                onTap: () =>
-                    ref.read(socialAuthProvider.notifier).githubSingIn(context),
-                child: const AuthButton(
-                  icon: FaIcon(FontAwesomeIcons.github),
-                  text: "Continue with Github",
-                ),
+              const AuthButton(
+                icon: FaIcon(FontAwesomeIcons.apple),
+                text: "Continue with Apple",
               ),
             ],
           ),

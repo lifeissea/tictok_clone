@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-<<<<<<< HEAD:lib/features/authentication/password_screen.dart
 import 'package:tictok_clone/features/authentication/birthday_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
 class PasswordScreen extends StatefulWidget {
-=======
-import 'package:tictok_clone/features/authentication/view_models/signup_view_model.dart';
-import 'package:tictok_clone/features/authentication/views/birthday_screen.dart';
-import 'package:tictok_clone/features/authentication/views/widgets/form_button.dart';
-
-class PasswordScreen extends ConsumerStatefulWidget {
->>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/authentication/views/password_screen.dart
   const PasswordScreen({super.key});
 
   @override
-  ConsumerState<PasswordScreen> createState() => _PasswordScreenState();
+  State<PasswordScreen> createState() => _PasswordScreenState();
 }
 
-class _PasswordScreenState extends ConsumerState<PasswordScreen> {
+class _PasswordScreenState extends State<PasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   String _password = "";
@@ -54,11 +45,6 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
 
   void _onSubmit() {
     if (!_isPasswordValid()) return;
-    final state = ref.read(signUpForm.notifier).state;
-    ref.read(signUpForm.notifier).state = {
-      ...state,
-      "password": _password,
-    };
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-<<<<<<< HEAD
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/discover/discover_screen.dart';
@@ -11,17 +10,6 @@ import 'package:tictok_clone/common/widgets/main_navigation/widgets/post_video_b
 import 'package:tictok_clone/features/users/user_profile_screen.dart';
 import 'package:tictok_clone/features/videos/video_recording_screen.dart';
 import 'package:tictok_clone/features/videos/video_timeline_screen.dart';
-=======
-import 'package:tictok_clone/common/widgets/main_navigation/widgets/nav_tab.dart';
-import 'package:tictok_clone/common/widgets/main_navigation/widgets/post_video_button.dart';
-import 'package:tictok_clone/constants/gaps.dart';
-import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/discover/discover_screen.dart';
-import 'package:tictok_clone/features/inbox/views/inbox_screen.dart';
-import 'package:tictok_clone/features/users/views/user_profile_screen.dart';
-import 'package:tictok_clone/features/videos/views/video_recording_screen.dart';
-import 'package:tictok_clone/features/videos/views/video_timeline_screen.dart';
->>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
 import 'package:tictok_clone/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -92,14 +80,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
       bottomNavigationBar: Container(
         color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
-<<<<<<< HEAD
         padding: const EdgeInsets.only(
           bottom: Sizes.size32,
         ),
-=======
-        padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + Sizes.size12),
->>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
         child: Padding(
           padding: const EdgeInsets.all(Sizes.size12),
           child: Row(
