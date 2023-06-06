@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
-import 'login_form_screen.dart';
-import 'widgets/auth_button.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/authentication/login_form_screen.dart';
+import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tictok_clone/utils.dart';
 
 class LoginScreen extends StatelessWidget {
+  static String routeName = "login";
+  static String routeURL = "/login";
   const LoginScreen({super.key});
 
   void _onSignUpTap(BuildContext context) {
-    Navigator.of(context).pop();
+    context.pop();
   }
 
   void _onEmailLoginTap(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => const LoginFormScreen(),
       ),
@@ -40,13 +44,15 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               Gaps.v20,
-              const Text(
-                "Manage your account, check notifications, comment on videos, and more.",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  color: Colors.black45,
+              const Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Manage your account, check notifications, comment on videos, and more.",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               Gaps.v40,
               GestureDetector(
@@ -65,12 +71,14 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
-        elevation: 2,
+      bottomNavigationBar: Container(
+        color: isDarkMode(context)
+            ? Theme.of(context).appBarTheme.backgroundColor
+            : Colors.grey.shade50,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size32,
+          padding: const EdgeInsets.only(
+            top: Sizes.size32,
+            bottom: Sizes.size64,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/birthday_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
 
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({super.key});
@@ -15,21 +14,19 @@ class PasswordScreen extends StatefulWidget {
 
 class _PasswordScreenState extends State<PasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
+
   String _password = "";
+
   bool _obscureText = true;
 
   @override
   void initState() {
     super.initState();
-    _passwordController.addListener(
-      () {
-        setState(
-          () {
-            _password = _passwordController.text;
-          },
-        );
-      },
-    );
+    _passwordController.addListener(() {
+      setState(() {
+        _password = _passwordController.text;
+      });
+    });
   }
 
   @override
@@ -39,7 +36,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
   }
 
   bool _isPasswordValid() {
-    return _password.isNotEmpty && _password.length >= 8;
+    return _password.isNotEmpty && _password.length > 8;
   }
 
   void _onScaffoldTap() {
@@ -61,11 +58,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
   }
 
   void _toggleObscureText() {
-    setState(
-      () {
-        _obscureText = !_obscureText;
-      },
-    );
+    _obscureText = !_obscureText;
+    setState(() {});
   }
 
   @override
@@ -124,7 +118,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       ),
                     ],
                   ),
-                  hintText: "Make it Strong!",
+                  hintText: "Make it strong!",
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.grey.shade400,
@@ -139,7 +133,12 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 cursorColor: Theme.of(context).primaryColor,
               ),
               Gaps.v10,
-              const Text(""),
+              const Text(
+                'Your password must have:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Gaps.v10,
               Row(
                 children: [

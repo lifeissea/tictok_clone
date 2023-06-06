@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/password_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
+class EmailScreenArgs {
+  final String username;
+
+  EmailScreenArgs({required this.username});
+}
 
 class EmailScreen extends StatefulWidget {
-  const EmailScreen({super.key});
+  final String username;
+
+  const EmailScreen({
+    super.key,
+    required this.username,
+  });
 
   @override
   State<EmailScreen> createState() => _EmailScreenState();
@@ -15,20 +25,16 @@ class EmailScreen extends StatefulWidget {
 class _EmailScreenState extends State<EmailScreen> {
   final TextEditingController _emailController = TextEditingController();
 
-  final String _email = "";
+  String _email = "";
 
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(
-      () {
-        setState(
-          () {
-            _emailController.text;
-          },
-        );
-      },
-    );
+    _emailController.addListener(() {
+      setState(() {
+        _email = _emailController.text;
+      });
+    });
   }
 
   @override
@@ -47,7 +53,7 @@ class _EmailScreenState extends State<EmailScreen> {
     return null;
   }
 
-  void _onScoffoldTap() {
+  void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
   }
 
@@ -64,7 +70,7 @@ class _EmailScreenState extends State<EmailScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onScoffoldTap,
+      onTap: _onScaffoldTap,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -76,11 +82,12 @@ class _EmailScreenState extends State<EmailScreen> {
             horizontal: Sizes.size36,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gaps.v40,
-              const Text(
-                "What is your email?",
-                style: TextStyle(
+              Text(
+                "What is your email, ${widget.username}?",
+                style: const TextStyle(
                   fontSize: Sizes.size24,
                   fontWeight: FontWeight.w700,
                 ),
@@ -101,7 +108,7 @@ class _EmailScreenState extends State<EmailScreen> {
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                      color: Colors.grey.shade400,
                     ),
                   ),
                 ),

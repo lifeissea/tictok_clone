@@ -10,6 +10,7 @@ class VideoTimelineScreen extends StatefulWidget {
 
 class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   int _itemCount = 4;
+
   final PageController _pageController = PageController();
 
   final Duration _scrollDuration = const Duration(milliseconds: 250);
@@ -29,10 +30,10 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   void _onVideoFinished() {
     return;
-    _pageController.nextPage(
+    /* _pageController.nextPage(
       duration: _scrollDuration,
       curve: _scrollCurve,
-    );
+    ); */
   }
 
   @override
@@ -42,7 +43,9 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   }
 
   Future<void> _onRefresh() {
-    return Future.delayed(const Duration(seconds: 2));
+    return Future.delayed(
+      const Duration(seconds: 5),
+    );
   }
 
   @override

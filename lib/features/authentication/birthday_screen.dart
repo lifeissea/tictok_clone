@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
-import '../onboarding/interests_screen.dart';
+import 'package:tictok_clone/features/onboarding/interests_screen.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
@@ -20,17 +20,18 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   @override
   void initState() {
-    _birthdayController.dispose();
     super.initState();
+    _setTextFieldDate(initialDate);
+  }
+
+  @override
+  void dispose() {
+    _birthdayController.dispose();
+    super.dispose();
   }
 
   void _onNextTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const InterestsScreen(),
-      ),
-      (route) => false,
-    );
+    context.goNamed(InterestsScreen.routeName);
   }
 
   void _setTextFieldDate(DateTime date) {
@@ -55,7 +56,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           children: [
             Gaps.v40,
             const Text(
-              "When',s your birthday?",
+              "When's your birthday?",
               style: TextStyle(
                 fontSize: Sizes.size24,
                 fontWeight: FontWeight.w700,
@@ -63,14 +64,15 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             ),
             Gaps.v8,
             const Text(
-              "Your Birthday won',t be shown publicly",
+              "Your birthday won't be shown publicly.",
               style: TextStyle(
                 fontSize: Sizes.size16,
-                fontWeight: FontWeight.w400,
+                color: Colors.black54,
               ),
             ),
             Gaps.v16,
             TextField(
+              enabled: false,
               controller: _birthdayController,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
@@ -94,15 +96,13 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: SizedBox(
-          height: 300,
-          child: CupertinoDatePicker(
-            maximumDate: initialDate,
-            onDateTimeChanged: _setTextFieldDate,
-            initialDateTime: initialDate,
-            mode: CupertinoDatePickerMode.date,
-          ),
+      bottomNavigationBar: SizedBox(
+        height: 300,
+        child: CupertinoDatePicker(
+          maximumDate: initialDate,
+          initialDateTime: initialDate,
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: _setTextFieldDate,
         ),
       ),
     );

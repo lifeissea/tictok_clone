@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/authentication/email_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
-import 'email_screen.dart';
 
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
@@ -20,15 +19,11 @@ class _UsernameScreenState extends State<UsernameScreen> {
   @override
   void initState() {
     super.initState();
-    _usernameController.addListener(
-      () {
-        setState(
-          () {
-            _username = _usernameController.text;
-          },
-        );
-      },
-    );
+    _usernameController.addListener(() {
+      setState(() {
+        _username = _usernameController.text;
+      });
+    });
   }
 
   @override
@@ -38,10 +33,11 @@ class _UsernameScreenState extends State<UsernameScreen> {
   }
 
   void _onNextTap() {
+    if (_username.isEmpty) return;
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const EmailScreen(),
+        builder: (context) => EmailScreen(username: _username),
       ),
     );
   }
@@ -74,8 +70,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
               "You can always change this later.",
               style: TextStyle(
                 fontSize: Sizes.size16,
-                fontWeight: FontWeight.w400,
-                color: Colors.black45,
+                color: Colors.black54,
               ),
             ),
             Gaps.v16,

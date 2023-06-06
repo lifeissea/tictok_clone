@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
-import 'login_screen.dart';
-import 'username_screen.dart';
-import 'widgets/auth_button.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/authentication/login_screen.dart';
+import 'package:tictok_clone/features/authentication/username_screen.dart';
+import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tictok_clone/generated/l10n.dart';
+import 'package:tictok_clone/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const routeURL = "/";
+  static const routeName = "signUp";
   const SignUpScreen({super.key});
 
-  void _onSignUpTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
+  void _onLoginTap(BuildContext context) async {
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => const UsernameScreen(),
       ),
@@ -28,82 +29,119 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size40,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Gaps.v80,
-              const Text(
-                "TicTok Sign Up",
-                style: TextStyle(
-                  fontSize: Sizes.size24,
-                  fontWeight: FontWeight.w700,
-                ),
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        /* if (orientation == Orientation.landscape) {
+          return const Scaffold(
+            body: Center(
+              child: Text('Plz rotate ur phone.'),
+            ),
+          );
+        } */
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size40,
               ),
-              Gaps.v20,
-              const Text(
-                "설명글이 들어갑니다!",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black45,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Gaps.v40,
-              GestureDetector(
-                onTap: () => _onEmailTap(context),
-                child: const AuthButton(
-                  text: "Use email & password",
-                  icon: FaIcon(FontAwesomeIcons.user),
-                ),
-              ),
-              Gaps.v16,
-              const AuthButton(
-                text: "Continue with Apple",
-                icon: FaIcon(FontAwesomeIcons.apple),
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size32,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Don't have an account?",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                ),
-              ),
-              Gaps.h5,
-              GestureDetector(
-                onTap: () => _onSignUpTap(context),
-                child: Text(
-                  "Log in",
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Gaps.v80,
+                  Text(
+                    S.of(context).signUpTitle("TikTok"),
+                    style: const TextStyle(
+                      fontSize: Sizes.size24,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
+                  Gaps.v20,
+                  Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      S.of(context).signUpSubtitle(19687),
+                      style: const TextStyle(
+                        fontSize: Sizes.size16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Gaps.v40,
+                  if (orientation == Orientation.portrait) ...[
+                    GestureDetector(
+                      onTap: () => _onEmailTap(context),
+                      child: AuthButton(
+                        icon: const FaIcon(FontAwesomeIcons.user),
+                        text: S.of(context).emailPasswordButton,
+                      ),
+                    ),
+                    Gaps.v16,
+                    AuthButton(
+                      icon: const FaIcon(FontAwesomeIcons.apple),
+                      text: S.of(context).appleButton,
+                    )
+                  ],
+                  if (orientation == Orientation.landscape)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => _onEmailTap(context),
+                            child: AuthButton(
+                              icon: const FaIcon(FontAwesomeIcons.user),
+                              text: S.of(context).emailPasswordButton,
+                            ),
+                          ),
+                        ),
+                        Gaps.h16,
+                        Expanded(
+                          child: AuthButton(
+                            icon: const FaIcon(FontAwesomeIcons.apple),
+                            text: S.of(context).appleButton,
+                          ),
+                        )
+                      ],
+                    )
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+          bottomNavigationBar: Container(
+            color: isDarkMode(context)
+                ? Theme.of(context).appBarTheme.backgroundColor
+                : Colors.grey.shade50,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: Sizes.size32,
+                bottom: Sizes.size64,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    S.of(context).alreadyHaveAnAccount,
+                    style: const TextStyle(
+                      fontSize: Sizes.size16,
+                    ),
+                  ),
+                  Gaps.h5,
+                  GestureDetector(
+                    onTap: () => _onLoginTap(context),
+                    child: Text(
+                      S.of(context).logIn("female"),
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

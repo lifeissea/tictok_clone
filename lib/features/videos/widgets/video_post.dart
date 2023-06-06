@@ -1,12 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tictok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/widgets/video_button.dart';
+import 'package:tictok_clone/features/videos/widgets/video_comments.dart';
+import 'package:tictok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import '../../../constants/sizes.dart';
-import 'video_comments.dart';
 
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
@@ -26,6 +29,7 @@ class VideoPost extends StatefulWidget {
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
+
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
   late final AnimationController _animationController;
@@ -46,6 +50,9 @@ class _VideoPostState extends State<VideoPost>
         VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -67,14 +74,19 @@ class _VideoPostState extends State<VideoPost>
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
+    }
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+      _onTogglePause();
     }
   }
 
@@ -97,6 +109,7 @@ class _VideoPostState extends State<VideoPost>
     }
     await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => const VideoComments(),
     );
@@ -147,6 +160,21 @@ class _VideoPostState extends State<VideoPost>
             ),
           ),
           Positioned(
+            left: 20,
+            top: 40,
+            child: IconButton(
+              icon: FaIcon(
+                context.watch<VideoConfig>().isMuted
+                    ? FontAwesomeIcons.volumeOff
+                    : FontAwesomeIcons.volumeHigh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                context.read<VideoConfig>().toggleIsMuted();
+              },
+            ),
+          ),
+          Positioned(
             bottom: 20,
             left: 10,
             child: Column(
@@ -186,23 +214,22 @@ class _VideoPostState extends State<VideoPost>
                   child: Text("니꼬"),
                 ),
                 Gaps.v24,
-                const VideoButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: "2.9M",
-                ),
+                VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: S.of(context).likeCount(98798711111987)),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
-                  child: const VideoButton(
+                  child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: "33K",
+                    text: S.of(context).commentCount(65656),
                   ),
                 ),
                 Gaps.v24,
                 const VideoButton(
                   icon: FontAwesomeIcons.share,
                   text: "Share",
-                ),
+                )
               ],
             ),
           ),
