@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD:lib/features/authentication/email_screen.dart
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/password_screen.dart';
@@ -17,12 +18,35 @@ class EmailScreen extends StatefulWidget {
     super.key,
     required this.username,
   });
+=======
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tictok_clone/constants/gaps.dart';
+import 'package:tictok_clone/constants/sizes.dart';
 
-  @override
-  State<EmailScreen> createState() => _EmailScreenState();
+import 'package:tictok_clone/features/authentication/view_models/signup_view_model.dart';
+import 'package:tictok_clone/features/authentication/views/password_screen.dart';
+import 'package:tictok_clone/features/authentication/views/widgets/form_button.dart';
+
+class EmailScreenArgs {
+  final String username;
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/authentication/views/email_screen.dart
+
+  EmailScreenArgs({required this.username});
 }
 
-class _EmailScreenState extends State<EmailScreen> {
+class EmailScreen extends ConsumerStatefulWidget {
+  final String username;
+
+  const EmailScreen({
+    super.key,
+    required this.username,
+  });
+
+  @override
+  ConsumerState<EmailScreen> createState() => _EmailScreenState();
+}
+
+class _EmailScreenState extends ConsumerState<EmailScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   String _email = "";
@@ -59,6 +83,7 @@ class _EmailScreenState extends State<EmailScreen> {
 
   void _onSubmit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
+    ref.read(signUpForm.notifier).state = {"email": _email};
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -78,7 +103,7 @@ class _EmailScreenState extends State<EmailScreen> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             horizontal: Sizes.size36,
           ),
           child: Column(

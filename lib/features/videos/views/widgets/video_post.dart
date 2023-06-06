@@ -1,32 +1,47 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tictok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+<<<<<<< HEAD:lib/features/videos/widgets/video_post.dart
 import 'package:tictok_clone/features/videos/widgets/video_button.dart';
 import 'package:tictok_clone/features/videos/widgets/video_comments.dart';
+=======
+import 'package:tictok_clone/features/videos/models/video_model.dart';
+import 'package:tictok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tictok_clone/features/videos/view_models/video_post_view_models.dart';
+import 'package:tictok_clone/features/videos/views/widgets/video_button.dart';
+import 'package:tictok_clone/features/videos/views/widgets/video_comments.dart';
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/videos/views/widgets/video_post.dart
 import 'package:tictok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+<<<<<<< HEAD:lib/features/videos/widgets/video_post.dart
 class VideoPost extends StatefulWidget {
+=======
+class VideoPost extends ConsumerStatefulWidget {
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/videos/views/widgets/video_post.dart
   final Function onVideoFinished;
+  final VideoModel videoData;
 
   final int index;
 
   const VideoPost({
     super.key,
+    required this.videoData,
     required this.onVideoFinished,
     required this.index,
   });
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
 
@@ -43,6 +58,10 @@ class _VideoPostState extends State<VideoPost>
         widget.onVideoFinished();
       }
     }
+  }
+
+  void _onLikeTap() {
+    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
   }
 
   void _initVideoPlayer() async {
@@ -78,12 +97,28 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
+  void _onPlaybackConfigChanged() {
+    if (!mounted) return;
+    final muted = ref.read(playbackConfigProvider).muted;
+    ref.read(playbackConfigProvider.notifier).setMuted(!muted);
+    if (muted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(1);
+    }
+  }
+
   void _onVisibilityChanged(VisibilityInfo info) {
     if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      if (ref.read(playbackConfigProvider).autoplay) {
+        _videoPlayerController.play();
+      }
+    }
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+      _onTogglePause();
     }
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
@@ -126,8 +161,9 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
                   ),
           ),
           Positioned.fill(
@@ -164,14 +200,22 @@ class _VideoPostState extends State<VideoPost>
             top: 40,
             child: IconButton(
               icon: FaIcon(
+<<<<<<< HEAD:lib/features/videos/widgets/video_post.dart
                 context.watch<VideoConfig>().isMuted
+=======
+                ref.watch(playbackConfigProvider).muted
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/videos/views/widgets/video_post.dart
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
+<<<<<<< HEAD:lib/features/videos/widgets/video_post.dart
               onPressed: () {
                 context.read<VideoConfig>().toggleIsMuted();
               },
+=======
+              onPressed: _onPlaybackConfigChanged,
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/videos/views/widgets/video_post.dart
             ),
           ),
           Positioned(
@@ -179,10 +223,10 @@ class _VideoPostState extends State<VideoPost>
             left: 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "@니꼬",
-                  style: TextStyle(
+                  "@${widget.videoData.creator}",
+                  style: const TextStyle(
                     fontSize: Sizes.size20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -190,8 +234,8 @@ class _VideoPostState extends State<VideoPost>
                 ),
                 Gaps.v10,
                 Text(
-                  "This is my house in Thailand!!!",
-                  style: TextStyle(
+                  widget.videoData.description,
+                  style: const TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
                   ),
@@ -204,25 +248,38 @@ class _VideoPostState extends State<VideoPost>
             right: 10,
             child: Column(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(
-                    "https://avatars.githubusercontent.com/u/3612017",
-                  ),
-                  child: Text("니꼬"),
+                  child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,
+<<<<<<< HEAD:lib/features/videos/widgets/video_post.dart
                 VideoButton(
                     icon: FontAwesomeIcons.solidHeart,
                     text: S.of(context).likeCount(98798711111987)),
+=======
+                GestureDetector(
+                  onTap: _onLikeTap,
+                  child: VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: S.of(context).likeCount(widget.videoData.likes),
+                  ),
+                ),
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/videos/views/widgets/video_post.dart
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
+<<<<<<< HEAD:lib/features/videos/widgets/video_post.dart
                     text: S.of(context).commentCount(65656),
+=======
+                    text: S.of(context).commentCount(
+                          widget.videoData.comments,
+                        ),
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/videos/views/widgets/video_post.dart
                   ),
                 ),
                 Gaps.v24,

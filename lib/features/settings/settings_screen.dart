@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tictok_clone/common/widgets/video_config/video_config.dart';
@@ -24,6 +25,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+=======
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tictok_clone/features/authentication/repos/authentication_repo.dart';
+import 'package:tictok_clone/features/videos/view_models/playback_config_vm.dart';
+
+class SettingsScreen extends ConsumerWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -31,6 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
+<<<<<<< HEAD
             value: context.watch<VideoConfig>().isMuted,
             onChanged: (value) => context.read<VideoConfig>().toggleIsMuted(),
             title: const Text("Aute Mute"),
@@ -39,13 +54,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SwitchListTile.adaptive(
             value: _notifications,
             onChanged: _onNotificationsChanged,
+=======
+            value: ref.watch(playbackConfigProvider).muted,
+            onChanged: (value) =>
+                ref.read(playbackConfigProvider.notifier).setMuted(value),
+            title: const Text("Mute video"),
+            subtitle: const Text("Video will be muted by default."),
+          ),
+          SwitchListTile.adaptive(
+            value: ref.watch(playbackConfigProvider).autoplay,
+            onChanged: (value) =>
+                ref.read(playbackConfigProvider.notifier).setAutoplay(value),
+            title: const Text("Autoplay"),
+            subtitle: const Text("Video will start playing automatically."),
+          ),
+          SwitchListTile.adaptive(
+            value: false,
+            onChanged: (value) {},
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
             title: const Text("Enable notifications"),
             subtitle: const Text("They will be cute."),
           ),
           CheckboxListTile(
             activeColor: Colors.black,
+<<<<<<< HEAD
             value: _notifications,
             onChanged: _onNotificationsChanged,
+=======
+            value: false,
+            onChanged: (value) {},
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
             title: const Text("Marketing emails"),
             subtitle: const Text("We won't spam you."),
           ),
@@ -60,7 +98,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               if (kDebugMode) {
                 print(date);
               }
+<<<<<<< HEAD
               if (!mounted) return;
+=======
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
               final time = await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
@@ -68,7 +109,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               if (kDebugMode) {
                 print(time);
               }
+<<<<<<< HEAD
               if (!mounted) return;
+=======
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
               final booking = await showDateRangePicker(
                 context: context,
                 firstDate: DateTime(1980),
@@ -105,7 +149,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: const Text("No"),
                     ),
                     CupertinoDialogAction(
+<<<<<<< HEAD
                       onPressed: () => Navigator.of(context).pop(),
+=======
+                      onPressed: () {
+                        ref.read(authRepo).signOut();
+                        context.go("/");
+                      },
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b
                       isDestructiveAction: true,
                       child: const Text("Yes"),
                     ),

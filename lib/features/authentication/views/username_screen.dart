@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+<<<<<<< HEAD:lib/features/authentication/username_screen.dart
 import 'package:tictok_clone/features/authentication/email_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
+=======
+import 'package:tictok_clone/features/authentication/views/email_screen.dart';
+import 'package:tictok_clone/features/authentication/views/widgets/form_button.dart';
+>>>>>>> e66686b895e860345e0eb3e6a5628fce55c01a8b:lib/features/authentication/views/username_screen.dart
 
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
