@@ -7,10 +7,10 @@ import 'package:tictok_clone/features/inbox/activity_screen.dart';
 import 'package:tictok_clone/features/inbox/chat_detail_screen.dart';
 import 'package:tictok_clone/features/inbox/chats_screen.dart';
 import 'package:tictok_clone/features/onboarding/interests_screen.dart';
-import 'package:tictok_clone/features/videos/video_recording_screen.dart';
+import 'package:tictok_clone/features/videos/views/video_recording_screen.dart';
 
 final router = GoRouter(
-  initialLocation: "/inbox",
+  initialLocation: "/login",
   routes: [
     GoRoute(
       name: SignUpScreen.routeName,
@@ -25,7 +25,11 @@ final router = GoRouter(
     GoRoute(
       name: InterestsScreen.routeName,
       path: InterestsScreen.routeURL,
-      builder: (context, state) => const InterestsScreen(),
+      builder: (context, state) => InterestsScreen(
+        email: '',
+        password: '',
+        username: '',
+      ),
     ),
     GoRoute(
       path: "/:tab(home|discover|inbox|profile)",

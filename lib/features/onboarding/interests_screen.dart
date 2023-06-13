@@ -46,10 +46,17 @@ const interests = [
 ];
 
 class InterestsScreen extends StatefulWidget {
+  final String email;
+  final String password;
+  final String username;
   static const String routeName = "interests";
   static const String routeURL = "/tutorial";
 
-  const InterestsScreen({super.key});
+  const InterestsScreen(
+      {super.key,
+      required this.email,
+      required this.password,
+      required this.username});
 
   @override
   State<InterestsScreen> createState() => _InterestsScreenState();
@@ -77,7 +84,11 @@ class _InterestsScreenState extends State<InterestsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const TutorialScreen(),
+        builder: (context) => TutorialScreen(
+          email: widget.email,
+          password: widget.password,
+          username: widget.username,
+        ),
       ),
     );
   }
@@ -96,6 +107,10 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.email);
+    print(widget.password);
+    print(widget.username);
+
     return Scaffold(
       appBar: AppBar(
         title: AnimatedOpacity(

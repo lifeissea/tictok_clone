@@ -37,7 +37,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EmailScreen(username: _username),
+        builder: (context) => EmailScreen(
+          username: _username,
+        ),
       ),
     );
   }

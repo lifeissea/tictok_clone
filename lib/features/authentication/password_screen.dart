@@ -6,7 +6,13 @@ import 'package:tictok_clone/features/authentication/birthday_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
 class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({super.key});
+  final String email;
+  final String username;
+  const PasswordScreen({
+    super.key,
+    required this.email,
+    required this.username,
+  });
 
   @override
   State<PasswordScreen> createState() => _PasswordScreenState();
@@ -48,7 +54,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const BirthdayScreen(),
+        builder: (context) => BirthdayScreen(
+          email: widget.email,
+          password: _password,
+          username: widget.username,
+        ),
       ),
     );
   }
@@ -64,6 +74,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.email);
+    print(widget.username);
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(

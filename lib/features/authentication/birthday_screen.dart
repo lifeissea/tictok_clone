@@ -1,13 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tictok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/authentication/models/user_model.dart';
+import 'package:tictok_clone/features/authentication/view_models/user_view_model.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
-import 'package:tictok_clone/features/onboarding/interests_screen.dart';
 
 class BirthdayScreen extends StatefulWidget {
-  const BirthdayScreen({super.key});
+  final String username;
+  final String email;
+  final String password;
+  const BirthdayScreen(
+      {super.key,
+      required this.username,
+      required this.email,
+      required this.password});
 
   @override
   State<BirthdayScreen> createState() => _BirthdayScreenState();
@@ -15,6 +24,7 @@ class BirthdayScreen extends StatefulWidget {
 
 class _BirthdayScreenState extends State<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
+  final RegistrationViewModel _registrationViewModel = RegistrationViewModel();
 
   DateTime initialDate = DateTime.now();
 
@@ -30,8 +40,19 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
     super.dispose();
   }
 
-  void _onNextTap() {
-    context.goNamed(InterestsScreen.routeName);
+  void _onNextTap() async {
+    final user = UserModel(
+      username: widget.username,
+      email: widget.email,
+      password: widget.password,
+    );
+
+    await _registrationViewModel.registerUser(user);
+    // You can handle the navigation logic here after successful registration
+
+    // Example navigation:
+    context.goNamed(MainNavigationScreen.routeName,
+        pathParameters: {'tab': 'home'});
   }
 
   void _setTextFieldDate(DateTime date) {

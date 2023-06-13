@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:tictok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/videos/widgets/video_button.dart';
-import 'package:tictok_clone/features/videos/widgets/video_comments.dart';
+import 'package:tictok_clone/features/videos/views/widgets/video_button.dart';
+import 'package:tictok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:tictok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -35,6 +33,7 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
+  final bool _isMuted = false;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -78,13 +77,20 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
+  void _onPlaybackConfigChange() {
+    if (!mounted) return;
+    if (false != _isMuted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(1);
+    }
+  }
+
   void _onVisibilityChanged(VisibilityInfo info) {
     if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
-        !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
-    }
+        !_videoPlayerController.value.isPlaying) {}
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
     }
@@ -163,23 +169,21 @@ class _VideoPostState extends State<VideoPost>
             left: 20,
             top: 40,
             child: IconButton(
-              icon: FaIcon(
-                context.watch<VideoConfig>().isMuted
+              icon: const FaIcon(
+                false
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {
-                context.read<VideoConfig>().toggleIsMuted();
-              },
+              onPressed: () {},
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 20,
             left: 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   "@니꼬",
                   style: TextStyle(

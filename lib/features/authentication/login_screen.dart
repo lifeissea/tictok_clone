@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/login_form_screen.dart';
+import 'package:tictok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tictok_clone/utils.dart';
 
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   void _onSignUpTap(BuildContext context) {
-    context.pop();
+    context.goNamed(SignUpScreen.routeName);
   }
 
   void _onEmailLoginTap(BuildContext context) {

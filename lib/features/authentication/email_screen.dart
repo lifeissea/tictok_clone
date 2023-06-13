@@ -62,13 +62,15 @@ class _EmailScreenState extends State<EmailScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const PasswordScreen(),
+        builder: (context) =>
+            PasswordScreen(email: _email, username: widget.username),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.username);
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(

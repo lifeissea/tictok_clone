@@ -10,10 +10,18 @@ enum Direction { right, left }
 enum Page { first, second }
 
 class TutorialScreen extends StatefulWidget {
-  const TutorialScreen({super.key});
+  final String email;
+  final String password;
+  final String username;
+  const TutorialScreen(
+      {Key? key,
+      required this.email,
+      required this.password,
+      required this.username})
+      : super(key: key);
 
   @override
-  State<TutorialScreen> createState() => _TutorialScreenState();
+  _TutorialScreenState createState() => _TutorialScreenState();
 }
 
 class _TutorialScreenState extends State<TutorialScreen> {
@@ -44,12 +52,15 @@ class _TutorialScreenState extends State<TutorialScreen> {
     }
   }
 
-  void _onEnterAppTap() {
+  void _onEnterAppTap() async {
     context.go("/home");
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.email);
+    print(widget.password);
+    print(widget.username);
     return GestureDetector(
       onPanUpdate: _onPanUpdate,
       onPanEnd: _onPanEnd,
@@ -58,9 +69,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.size24),
           child: SafeArea(
             child: AnimatedCrossFade(
-              firstChild: Column(
+              firstChild: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Gaps.v80,
                     Text(
                       "Watch cool videos!",
@@ -77,9 +88,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
                       ),
                     )
                   ]),
-              secondChild: Column(
+              secondChild: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Gaps.v80,
                     Text(
                       "Follow the rules",
@@ -106,21 +117,22 @@ class _TutorialScreenState extends State<TutorialScreen> {
         bottomNavigationBar: Container(
           color: isDarkMode(context) ? Colors.black : Colors.white,
           child: Padding(
-              padding: const EdgeInsets.only(
-                top: Sizes.size32,
-                bottom: Sizes.size64,
-                left: Sizes.size24,
-                right: Sizes.size24,
+            padding: const EdgeInsets.only(
+              top: Sizes.size32,
+              bottom: Sizes.size64,
+              left: Sizes.size24,
+              right: Sizes.size24,
+            ),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              opacity: _showingPage == Page.first ? 0 : 1,
+              child: CupertinoButton(
+                onPressed: _onEnterAppTap,
+                color: Theme.of(context).primaryColor,
+                child: const Text('Enter the app!'),
               ),
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: _showingPage == Page.first ? 0 : 1,
-                child: CupertinoButton(
-                  onPressed: _onEnterAppTap,
-                  color: Theme.of(context).primaryColor,
-                  child: const Text('Enter the app!'),
-                ),
-              )),
+            ),
+          ),
         ),
       ),
     );
